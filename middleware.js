@@ -1,6 +1,12 @@
 import { NextResponse } from '@vercel/edge';
 
 export default function middleware(request) {
+  // Add debug logging
+  console.log('Checking authentication:', {
+    hasPassword: !!process.env.PASSWORD,
+    passwordLength: process.env.PASSWORD?.length
+  });
+
   // If no password is set in env, allow access without authentication
   if (!process.env.PASSWORD) {
     return NextResponse.next();
@@ -65,4 +71,12 @@ export const config = {
      */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
+};
+
+// Add this configuration to specify which env vars should be available
+export const runtime = 'edge';
+
+// This is crucial - we need to explicitly specify which env vars we want access to
+export const envVarsConfig = {
+  env: ['PASSWORD'],
 };
