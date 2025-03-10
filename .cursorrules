@@ -1,0 +1,66 @@
+We are developing a vanilla HTML, CSS, JS project that utilizes Vercel middleware to serve itself. 
+
+This project is deployed to Vercel. It utilizes Vercel Edge Functions to serve the middleware. More information can be found here: https://vercel.com/docs/edge-middleware
+
+Please be aware of Vercel Edge's limitations. https://vercel.com/docs/edge-middleware/middleware-api and https://vercel.com/docs/edge-middleware/limitations are good resources for this. 
+
+We use custom HTML Elements to separate out concerns. 
+
+A custom HTML Element follows the following pattern: 
+
+```js
+const web_worker = new Worker('/web-workers/web-worker.js');
+
+class ElementName extends HTMLElement {
+  connectedCallback(){
+
+    this.innerHTML = `
+      <h3>Custom HTML Element</h3>
+      <p><a href="https://lnsy.dev/blog/custom-html-components.html" target="_blank">About Custom HTML Elements</a></p> 
+    `
+
+    web_worker.postMessage('Hello, worker!');
+
+    // Listening for messages from the worker
+    web_worker.onmessage = function(e) {
+      console.log('Message received from worker:', e.data);
+    };
+
+    // Optional: Listening for errors from the worker
+    web_worker.onerror = function(e) {
+      console.error('Worker error:', e);
+    };
+  }
+
+  static get observedAttributes() {
+    return [];
+  }
+
+  attributeChangedCallback(name, old_value, new_value){
+    switch(name){
+      default:
+    }
+  }
+}
+```
+
+customElements.define('custom-html-element', ElementName)
+
+Please note that we keep all web-workers in the /web-workers directory. 
+
+We place all of our custom HTML Elements in the /src/ directory. 
+
+They are all initialized in the /src/index.js file. 
+
+We build our project with Webpack. 
+
+All of our styles are in the /styles/ directory. 
+
+All styles are imported in the /styles/index.css file. 
+
+All variables are in the /styles/variables.css file. 
+
+All media queries are in the /styles/media-queries.css file. 
+
+All holy grail layout styles are in the /styles/holy-grail-layout.css file. 
+
