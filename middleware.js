@@ -1,14 +1,19 @@
 import { NextResponse } from '@vercel/edge';
 
 export default function middleware(request) {
+  // If no password is set in env, allow access without authentication
+  if (!process.env.PASSWORD) {
+    return NextResponse.next();
+  }
+
   const authHeader = request.headers.get('authorization');
 
   if (!authHeader) {
-    return new NextResponse(JSON.stringify({ error: 'No authorization header' }), {
+    return new NextResponse(JSON.stringify({ error: 'Password required' }), {
       status: 401,
       headers: {
         'Content-Type': 'application/json',
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
+        'WWW-Authenticate': 'Basic realm="Password Required"',
       },
     });
   }
@@ -16,25 +21,25 @@ export default function middleware(request) {
   try {
     const base64Credentials = authHeader.split(' ')[1];
     const credentials = atob(base64Credentials);
-    const [, password] = credentials.split(':');
+    // Since we only care about password, split from the end to handle cases where
+    // username might contain ':'
+    const password = credentials.split(':').pop();
 
     // Debug log (will show in Vercel logs)
     console.log('Auth attempt:', {
-      hasPassword: !!process.env.PASSWORD,
-      providedPassword: password,
+      hasPassword: true,
       matches: password === process.env.PASSWORD
     });
 
     if (password === process.env.PASSWORD) {
-      // Forward the request to the static files
       return NextResponse.next();
     }
 
-    return new NextResponse(JSON.stringify({ error: 'Invalid credentials' }), {
+    return new NextResponse(JSON.stringify({ error: 'Invalid password' }), {
       status: 401,
       headers: {
         'Content-Type': 'application/json',
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
+        'WWW-Authenticate': 'Basic realm="Password Required"',
       },
     });
   } catch (error) {
@@ -43,7 +48,7 @@ export default function middleware(request) {
       status: 401,
       headers: {
         'Content-Type': 'application/json',
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
+        'WWW-Authenticate': 'Basic realm="Password Required"',
       },
     });
   }
