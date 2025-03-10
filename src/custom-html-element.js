@@ -6,7 +6,7 @@
 
  */
 
-const web_worker = new Worker('./src/web-worker.js');
+const web_worker = new Worker('/web-workers/web-worker.js');
 
 class ElementName extends HTMLElement {
   connectedCallback(){
