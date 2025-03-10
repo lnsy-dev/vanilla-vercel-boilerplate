@@ -1,0 +1,22 @@
+@import "./reset.css";
+@import "./variables.css";
+@import "./holy-grail-layout.css";
+@import "./media-queries.css";
+
+body {
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+  font-family: var(--body-font);
+}
+
+error {
+  color: var(--error-color);
+}
+
+confirmation {
+  color: var(--confirmation-color);
+}
+
+warning {
+  color: var(--warning-color);
+}
