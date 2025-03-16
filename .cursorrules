@@ -46,11 +46,11 @@ class ElementName extends HTMLElement {
 
 customElements.define('custom-html-element', ElementName)
 
-Please note that we keep all web-workers in the /web-workers directory. Please use web-workers to handle any heavy lifting. 
+Please note that we keep all web-workers in the /web-workers directory. Please use web-workers to handle processor heavy tasks. 
 
 We place all of our custom HTML Elements in the /src/ directory. 
 
-They are all initialized in the /src/index.js file. 
+They are all imported in the /src/index.js file. 
 
 We build our project with Webpack. 
 
@@ -62,5 +62,4 @@ All variables are in the /styles/variables.css file.
 
 All media queries are in the /styles/media-queries.css file. 
 
-All holy grail layout styles are in the /styles/holy-grail-layout.css file. 
-
+When you create a new feature, I intend for you to create a new component in /src/ and import that component in /src/index.js
