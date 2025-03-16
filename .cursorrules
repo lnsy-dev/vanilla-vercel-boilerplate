@@ -46,7 +46,7 @@ class ElementName extends HTMLElement {
 
 customElements.define('custom-html-element', ElementName)
 
-Please note that we keep all web-workers in the /web-workers directory. 
+Please note that we keep all web-workers in the /web-workers directory. Please use web-workers to handle any heavy lifting. 
 
 We place all of our custom HTML Elements in the /src/ directory. 
 
